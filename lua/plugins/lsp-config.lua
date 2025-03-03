@@ -24,6 +24,7 @@ return {
 				capabilities = capabilities,
 				autostart = true,
 			})
+            lspconfig.lemminx.setup({})
 			lspconfig.pyright.setup({})
 			--java
 			lspconfig.jdtls.setup({
