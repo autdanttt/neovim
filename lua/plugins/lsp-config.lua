@@ -9,39 +9,63 @@ return {
 		"williamboman/mason-lspconfig.nvim",
 		lazy = false,
 		opts = {
-			auto_install = false,
+			automatic_installation = false,
 		},
 	},
 	{
 		"neovim/nvim-lspconfig",
 		lazy = false,
 		config = function()
-			local capabilities = require("cmp_nvim_lsp").default_capabilities()
-			local lspconfig = require("lspconfig")
-			lspconfig.lua_ls.setup({})
-			-- golang
-			lspconfig.gopls.setup({
+			vim.lsp.config("lua_ls", {
 				capabilities = capabilities,
 				autostart = true,
 			})
-            lspconfig.lemminx.setup({})
-			lspconfig.pyright.setup({})
-			--java
-			lspconfig.jdtls.setup({
-				settings = {
-					java = {
-						configuration = {
-							runtimes = {
-								{
-									name = "JavaSE-17",
-									path = os.getenv("JAVA_HOME"),
-									default = true,
-								},
-							},
-						},
-					},
-				},
+			vim.lsp.config("gopls", {
+				capabilities = capabilities,
+				autostart = true,
 			})
+			vim.lsp.config("lemminx", {})
+			vim.lsp.config("pyright", {})
+			vim.lsp.config("ts_ls", {})
+
+			vim.lsp.enable({
+				"lua_ls",
+				"gopls",
+				"lemminx",
+				"pyright",
+				"ts_ls",
+			})
+
+
+
+			--Api cũ
+			-- local capabilities = require("cmp_nvim_lsp").default_capabilities()
+			-- local lspconfig = require("lspconfig")
+			-- lspconfig.lua_ls.setup({})
+			-- -- golang
+			-- lspconfig.gopls.setup({
+			-- 	capabilities = capabilities,
+			-- 	autostart = true,
+			-- })
+            -- lspconfig.lemminx.setup({})
+			-- lspconfig.pyright.setup({})
+			-- lspconfig.ts_ls.setup({})
+			--java
+			-- lspconfig.jdtls.setup({
+			-- 	settings = {
+			-- 		java = {
+			-- 			configuration = {
+			-- 				runtimes = {
+			-- 					{
+			-- 						name = "JavaSE-17",
+			-- 						path = os.getenv("JAVA_HOME"),
+			-- 						default = true,
+			-- 					},
+			-- 				},
+			-- 			},
+			-- 		},
+			-- 	},
+			-- })
 
 			-- lsp kepmap setting
 			vim.keymap.set("n", "K", vim.lsp.buf.hover, {})

@@ -1,31 +1,39 @@
 return {
-	"nvim-treesitter/nvim-treesitter",
-	build = ":TSUpdate",
-	config = function()
-		local config = require("nvim-treesitter.configs")
-		config.setup({
-			-- auto install
-			auto_install = true,
-			-- add language you want to highlight in code
-			ensure_installed = {
-				"c",
-				"lua",
-				"vim",
-				"javascript",
-				"typescript",
-				"tsx",
-				"html",
-				"go",
-				"gomod",
-				"gowork",
-				"gosum",
-				"java",
-				"json",
-				"zig",
-			},
-			sync_install = false,
-			highlight = { enable = true },
-			indent = { enable = true },
-		})
-	end,
+  "nvim-treesitter/nvim-treesitter",
+  build = ":TSUpdate",
+  event = { "BufReadPost", "BufNewFile" },
+
+  opts = {
+    auto_install = true,
+    ensure_installed = {
+      "c",
+      "lua",
+      "vim",
+      "javascript",
+      "typescript",
+      "tsx",
+      "html",
+      "go",
+      "gomod",
+      "gowork",
+      "gosum",
+      "java",
+      "json",
+      "zig",
+    },
+    highlight = { enable = true },
+    indent = { enable = true },
+  },
+
+  config = function(_, opts)
+    -- thêm dòng này
+    require("nvim-treesitter.install").compilers = { "zig" }
+
+    local ok, configs = pcall(require, "nvim-treesitter.configs")
+    if not ok then
+      return
+    end
+
+    configs.setup(opts)
+  end,
 }
